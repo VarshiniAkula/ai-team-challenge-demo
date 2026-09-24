@@ -9,7 +9,7 @@ import { ResultsScreen } from './screens/ResultsScreen';
 import { InstructorView } from './screens/InstructorView';
 import { MakeItYours } from './screens/MakeItYours';
 
-export type Screen = 'welcome' | 'view' | 'map' | 'start' | 'l5' | 'l6' | 'l8' | 'results' | 'yours';
+export type Screen = 'welcome' | 'settings' | 'view' | 'map' | 'start' | 'l5' | 'l6' | 'l8' | 'results';
 export type StationId = 'l5' | 'l6' | 'l8';
 export interface StationState {
   choice: string;
@@ -22,7 +22,7 @@ export interface StationState {
 export type Stations = Partial<Record<StationId, StationState>>;
 export interface Look { background: 'classroom' | 'space'; company: string; reducedMotion: boolean }
 
-const NAV: [Screen, string][] = [['map', 'Lessons'], ['results', 'Results'], ['yours', 'Make it yours']];
+const NAV: [Screen, string][] = [['map', 'Lessons'], ['results', 'Results'], ['settings', 'Settings']];
 
 export const statusOf = (s?: StationState) => (!s ? 'not started' : s.saved ? 'demonstrated' : 'practiced');
 
@@ -36,27 +36,28 @@ const prefersReduced = () => typeof window !== 'undefined' && window.matchMedia(
 export default function App() {
   const [screen, setScreen] = useState<Screen>('welcome');
   const [name, setName] = useState('');
+  const [entered, setEntered] = useState(false); // true once a view has been chosen
   const [instructor, setInstructor] = useState(false);
   const [warmup, setWarmup] = useState(false);
   const [stations, setStations] = useState<Stations>({});
   const [look, setLook] = useState<Look>({ background: 'classroom', company: 'Maple Market', reducedMotion: prefersReduced() });
   const view: Look = { ...look, company: look.company.trim() || 'Maple Market' };
   const go = (s: Screen) => { setInstructor(false); setScreen(s); window.scrollTo({ top: 0 }); };
-  // A finished lesson returns to the lesson list, which suggests the next one. Results lead on to Make it yours.
-  const next = () => go(screen === 'results' ? 'yours' : 'map');
+  // Settings continues the entry flow the first time; afterwards every screen returns to the lesson list.
+  const next = () => go(screen === 'settings' && !entered ? 'view' : 'map');
   const station = (id: StationId) => ({ look: view, state: stations[id], next, update: (s: StationState) => setStations(p => ({ ...p, [id]: s })) });
 
   const body = () => {
     switch (screen) {
-      case 'welcome': return <Welcome company={view.company} onContinue={n => { setName(n); go('view'); }} />;
-      case 'view': return <ChooseView name={name} onPick={v => { setScreen('map'); setInstructor(v === 'instructor'); }} />;
+      case 'welcome': return <Welcome company={view.company} onContinue={n => { setName(n); go('settings'); }} />;
+      case 'settings': return <MakeItYours look={look} setLook={setLook} stations={stations} entered={entered} next={next} />;
+      case 'view': return <ChooseView name={name} onPick={v => { setEntered(true); setScreen('map'); setInstructor(v === 'instructor'); }} />;
       case 'map': return <LearningMap stations={stations} warmup={warmup} go={go} />;
       case 'start': return <StartScreen look={view} next={next} onPlayed={() => setWarmup(true)} />;
       case 'l5': return <StationL5 {...station('l5')} />;
       case 'l6': return <StationL6 {...station('l6')} />;
       case 'l8': return <StationL8 {...station('l8')} />;
       case 'results': return <ResultsScreen stations={stations} look={view} name={name} next={next} />;
-      case 'yours': return <MakeItYours look={look} setLook={setLook} stations={stations} />;
     }
   };
 

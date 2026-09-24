@@ -5,7 +5,7 @@ export function Welcome({ company, onContinue }: { company: string; onContinue: 
   const [name, setName] = useState('');
   return (
     <section className="card mission entry">
-      <p className="kicker">Step 1 of 3 · Your name</p>
+      <p className="kicker">Step 1 of 4 · Your name</p>
       <h2>Welcome to the AI Team Challenge</h2>
       <p className="intro">You will run {company}'s AI customer-service team: decide what the AI may do alone, when a person steps in, and where the boundaries are. First, tell us who you are.</p>
       <form onSubmit={e => { e.preventDefault(); if (name.trim()) onContinue(name.trim()); }}>
@@ -22,7 +22,7 @@ export function Welcome({ company, onContinue }: { company: string; onContinue: 
 export function ChooseView({ name, onPick }: { name: string; onPick: (view: 'student' | 'instructor') => void }) {
   return (
     <section className="card mission entry">
-      <p className="kicker">Step 2 of 3 · Choose a view</p>
+      <p className="kicker">Step 3 of 4 · Choose a view</p>
       <h2>Hi {name}. How do you want to use this?</h2>
       <div className="choices">
         <button className="choice" onClick={() => onPick('student')}>

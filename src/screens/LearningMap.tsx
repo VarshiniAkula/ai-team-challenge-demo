@@ -12,7 +12,7 @@ export function LearningMap({ stations, warmup, go }: { stations: Stations; warm
   const suggested = order.find(s => (s === 'start' ? !warmup : !stations[s as 'l5' | 'l6' | 'l8']?.saved)) ?? 'results';
   return (
     <section>
-      <p className="kicker">Step 3 of 3 · Choose a lesson</p>
+      <p className="kicker">Step 4 of 4 · Choose a lesson</p>
       <h2>Choose a lesson</h2>
       <p className="lead">Start with the warm-up, then play the three open stations in order, about two minutes each. A finished lesson brings you back here with its dot filled in. The other six lessons are in the full game.</p>
       <ul className="lessons">

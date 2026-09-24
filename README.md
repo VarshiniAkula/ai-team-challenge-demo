@@ -25,17 +25,21 @@ Commands that were actually run while building this demo:
 
 1. **Welcome** — the student enters their name. It labels their evidence for the
    instructor; it is not a login.
-2. **Choose a view** — *Student view* (play the lessons) or *Instructor view*
+2. **Settings (Make it yours)** — background (classroom / space station), company
+   name, and Reduced motion, set before play and reachable any time from the header.
+   A results check shows the measures before and after a change; they always match,
+   because the look is not an input to the rules.
+3. **Choose a view** — *Student view* (play the lessons) or *Instructor view*
    (evidence, rubric rows, knowledge check). The header button switches any time.
-3. **Choose a lesson** — the nine lessons as cards plus a *Warm-up* card. Each card
+4. **Choose a lesson** — the nine lessons as cards plus a *Warm-up* card. Each card
    shows the everyday lesson name with the course term as its subheading (Choose AI
    freedom / Autonomy, and so on) and a status: *Not started*, *Practiced*, or
    *Demonstrated*. The primary button always suggests the next unfinished lesson.
-4. **Warm-up mission** — "Maya's $150 order arrived late. She wants a refund." Three
+5. **Warm-up mission** — "Maya's $150 order arrived late. She wants a refund." Three
    choices. A dot travels the path while a *Now* line says what is happening, then
    a verdict, the one-line consequence, and **Next step**, **Why?**, **Try another
    choice**.
-5. **Three guided stations**, each labelled with the same loop (*The situation*,
+6. **Three guided stations**, each labelled with the same loop (*The situation*,
    *Your move*, *What happened*, *Why*, *Say why*), the rule that matters, a
    *Words from class* link, and the full shop rules behind a link:
    - **Station 1, Choose AI freedom** — run Maya's refund under *AI prepares,
@@ -50,17 +54,14 @@ Commands that were actually run while building this demo:
    Every station ends with a required one-sentence **Explain your choice** field.
    Saving it is the evidence, and **Next step** returns to the lesson list with the
    card marked *Demonstrated*.
-6. **Results** — the five measures from section 6, one line per request, and a
+7. **Results** — the five measures from section 6, one line per request, and a
    *Words from class* panel mapping what happened to autonomy, human-in-the-loop
    control, the trust boundary, and accountability.
-7. **Instructor view** — for each station: the student's choice, the engine's
+8. **Instructor view** — for each station: the student's choice, the engine's
    recorded result, the explanation marked *unreviewed*, the Appendix E.6 rubric
    row it feeds, and the event list in plain words. Also the nine-question knowledge
    check (Appendix E.2) with model explanations revealed. Clearly labelled as an
    instructional view, not a login.
-8. **Make it yours** — background (classroom / space station), company name, and
-   Reduced motion. A results check shows the measures before and after the change;
-   they always match, because the look is not an input to the rules.
 
 ## What this demo shows
 

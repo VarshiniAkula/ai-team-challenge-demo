@@ -3,7 +3,7 @@ import type { Look, Stations } from '../App';
 import { recordedRuns } from '../App';
 import { dollars, measures } from '../engine';
 
-export function MakeItYours({ look, setLook, stations }: { look: Look; setLook: (l: Look) => void; stations: Stations }) {
+export function MakeItYours({ look, setLook, stations, entered, next }: { look: Look; setLook: (l: Look) => void; stations: Stations; entered: boolean; next: () => void }) {
   const now = measures(recordedRuns(stations));
   const [before] = useState(now);
   const [changed, setChanged] = useState<string[]>([]);
@@ -11,8 +11,9 @@ export function MakeItYours({ look, setLook, stations }: { look: Look; setLook: 
   const summary = (m: typeof now) => `Correct answers ${m.correct} of ${m.total} · Customer wait ${m.minutes} game minutes · Work cost ${dollars(m.cents)} · Person time ${m.personMinutes} min`;
   return (
     <section>
+      <p className="kicker">{entered ? 'Settings' : 'Step 2 of 4 · Settings'}</p>
       <h2>Make it yours</h2>
-      <p className="lead">Change the look. The lessons, the rules, and the results stay exactly the same. That is how the student assignment works.</p>
+      <p className="lead">Change the look now or any time from Settings. The lessons, the rules, and the results stay exactly the same. That is how the student assignment works.</p>
       <div className="card settings">
         <fieldset>
           <legend>Background</legend>
@@ -28,6 +29,7 @@ export function MakeItYours({ look, setLook, stations }: { look: Look; setLook: 
         <p><strong>Now, after changing {changed.length} setting{changed.length === 1 ? '' : 's'}:</strong> {summary(now)}</p>
         <p className="muted">The look is not an input to the game's rules, so these two lines always match. Open Results to see the same numbers under the new look.</p>
       </div>
+      <button className="primary" onClick={next}>{entered ? 'Back to lessons' : 'Continue'}</button>
     </section>
   );
 }

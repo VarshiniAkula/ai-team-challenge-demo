@@ -49,7 +49,7 @@ export function ResultsScreen({ stations, look, name, next }: { stations: Statio
           <dd>You, the service owner, stayed responsible the whole time. Every request names who did each step, under what authority, and what comes next.</dd>
         </dl>
       </div>
-      <button className="primary" onClick={next}>Next step</button>
+      <button className="primary" onClick={next}>Back to lessons</button>
     </section>
   );
 }
