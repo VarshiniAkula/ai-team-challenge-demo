@@ -27,10 +27,10 @@ Commands that were actually run while building this demo:
    instructor; it is not a login.
 2. **Choose a view** — *Student view* (play the lessons) or *Instructor view*
    (evidence, rubric rows, knowledge check). The header button switches any time.
-3. **Choose a lesson** — the nine lessons as cards plus a *Warm-up* card, with the
-   course term on hover, tap, or keyboard focus (team layout → architecture, and so
-   on). Each card shows *Not started*, *Practiced*, or *Demonstrated*. The primary
-   button always suggests the next unfinished lesson.
+3. **Choose a lesson** — the nine lessons as cards plus a *Warm-up* card. Each card
+   shows the everyday lesson name with the course term as its subheading (Choose AI
+   freedom / Autonomy, and so on) and a status: *Not started*, *Practiced*, or
+   *Demonstrated*. The primary button always suggests the next unfinished lesson.
 4. **Warm-up mission** — "Maya's $150 order arrived late. She wants a refund." Three
    choices. A dot travels the path while a *Now* line says what is happening, then
    a verdict, the one-line consequence, and **Next step**, **Why?**, **Try another

@@ -65,11 +65,9 @@ button.small { padding: .3rem .6rem; min-height: 36px; }
 .lessons { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: .75rem; }
 .lesson { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: .75rem; display: flex; flex-direction: column; gap: .5rem; }
 .lesson.demonstrated { border-color: var(--accent); }
-.lesson .face { text-align: left; display: flex; flex-direction: column; gap: .2rem; border: 0; padding: .25rem; background: none; flex: 1; }
+.lesson .face { text-align: left; display: flex; flex-direction: column; gap: .2rem; border: 0; padding: .25rem; background: none; flex: 1; color: var(--ink); font: inherit; }
 .lesson .name { font-weight: 700; font-size: 1.05rem; }
-.lesson .does { color: var(--muted); font-size: .9rem; }
-.lesson .term { font-size: .9rem; color: var(--accent); opacity: 0; transition: opacity .25s; }
-.lesson:hover .term, .lesson:focus-within .term, .lesson.revealed .term { opacity: 1; }
+.lesson .term { font-size: .95rem; color: var(--accent); font-weight: 600; }
 .lesson .foot { display: flex; justify-content: space-between; align-items: center; gap: .5rem; }
 .status { font-size: .9rem; }
 .s-practiced { color: var(--warn); }
