@@ -30,7 +30,8 @@ Commands that were actually run while building this demo:
    A results check shows the measures before and after a change; they always match,
    because the look is not an input to the rules.
 3. **Choose a view** — *Student view* (play the lessons) or *Instructor view*
-   (evidence, rubric rows, knowledge check). The header button switches any time.
+   (evidence, rubric rows, knowledge check). Students never see the Instructor view;
+   instructors get it in the header along with every student screen.
 4. **Choose a lesson** — the nine lessons as cards plus a *Warm-up* card. Each card
    shows the everyday lesson name with the course term as its subheading (Choose AI
    freedom / Autonomy, and so on) and a status: *Not started*, *Practiced*, or
@@ -57,7 +58,7 @@ Commands that were actually run while building this demo:
 7. **Results** — the five measures from section 6, one line per request, and a
    *Words from class* panel mapping what happened to autonomy, human-in-the-loop
    control, the trust boundary, and accountability.
-8. **Instructor view** — for each station: the student's choice, the engine's
+8. **Instructor view** (instructors only) — for each station: the student's choice, the engine's
    recorded result, the explanation marked *unreviewed*, the Appendix E.6 rubric
    row it feeds, and the event list in plain words. Also the nine-question knowledge
    check (Appendix E.2) with model explanations revealed. Clearly labelled as an

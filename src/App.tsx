@@ -9,7 +9,8 @@ import { ResultsScreen } from './screens/ResultsScreen';
 import { InstructorView } from './screens/InstructorView';
 import { MakeItYours } from './screens/MakeItYours';
 
-export type Screen = 'welcome' | 'settings' | 'view' | 'map' | 'start' | 'l5' | 'l6' | 'l8' | 'results';
+export type Screen = 'welcome' | 'settings' | 'view' | 'map' | 'start' | 'l5' | 'l6' | 'l8' | 'results' | 'instructor';
+export type Role = 'student' | 'instructor';
 export type StationId = 'l5' | 'l6' | 'l8';
 export interface StationState {
   choice: string;
@@ -22,7 +23,11 @@ export interface StationState {
 export type Stations = Partial<Record<StationId, StationState>>;
 export interface Look { background: 'classroom' | 'space'; company: string; reducedMotion: boolean }
 
-const NAV: [Screen, string][] = [['map', 'Lessons'], ['results', 'Results'], ['settings', 'Settings']];
+// Students never see the Instructor view; instructors get it first, plus every student screen.
+const NAV: Record<Role, [Screen, string][]> = {
+  student: [['map', 'Lessons'], ['results', 'Results'], ['settings', 'Settings']],
+  instructor: [['instructor', 'Instructor view'], ['map', 'Lessons'], ['results', 'Results'], ['settings', 'Settings']],
+};
 
 export const statusOf = (s?: StationState) => (!s ? 'not started' : s.saved ? 'demonstrated' : 'practiced');
 
@@ -36,22 +41,22 @@ const prefersReduced = () => typeof window !== 'undefined' && window.matchMedia(
 export default function App() {
   const [screen, setScreen] = useState<Screen>('welcome');
   const [name, setName] = useState('');
-  const [entered, setEntered] = useState(false); // true once a view has been chosen
-  const [instructor, setInstructor] = useState(false);
+  const [role, setRole] = useState<Role | null>(null); // chosen at the view step
   const [warmup, setWarmup] = useState(false);
   const [stations, setStations] = useState<Stations>({});
   const [look, setLook] = useState<Look>({ background: 'classroom', company: 'Maple Market', reducedMotion: prefersReduced() });
   const view: Look = { ...look, company: look.company.trim() || 'Maple Market' };
-  const go = (s: Screen) => { setInstructor(false); setScreen(s); window.scrollTo({ top: 0 }); };
+  const go = (s: Screen) => { setScreen(s); window.scrollTo({ top: 0 }); };
   // Settings continues the entry flow the first time; afterwards every screen returns to the lesson list.
-  const next = () => go(screen === 'settings' && !entered ? 'view' : 'map');
+  const next = () => go(screen === 'settings' && !role ? 'view' : 'map');
   const station = (id: StationId) => ({ look: view, state: stations[id], next, update: (s: StationState) => setStations(p => ({ ...p, [id]: s })) });
 
   const body = () => {
     switch (screen) {
       case 'welcome': return <Welcome company={view.company} onContinue={n => { setName(n); go('settings'); }} />;
-      case 'settings': return <MakeItYours look={look} setLook={setLook} stations={stations} entered={entered} next={next} />;
-      case 'view': return <ChooseView name={name} onPick={v => { setEntered(true); setScreen('map'); setInstructor(v === 'instructor'); }} />;
+      case 'settings': return <MakeItYours look={look} setLook={setLook} stations={stations} entered={!!role} next={next} />;
+      case 'view': return <ChooseView name={name} onPick={v => { setRole(v); go(v === 'instructor' ? 'instructor' : 'map'); }} />;
+      case 'instructor': return <InstructorView name={name} stations={stations} runs={recordedRuns(stations)} />;
       case 'map': return <LearningMap stations={stations} warmup={warmup} go={go} />;
       case 'start': return <StartScreen look={view} next={next} onPlayed={() => setWarmup(true)} />;
       case 'l5': return <StationL5 {...station('l5')} />;
@@ -66,16 +71,15 @@ export default function App() {
       <a className="skip" href="#main">Skip to content</a>
       <header className="top">
         <h1>AI Team Challenge <span className="company">· {view.company}</span>{name && <span className="company"> · {name}</span>}</h1>
-        {name && (
+        {role && (
           <nav aria-label="Screens">
-            {NAV.map(([s, label]) => (
-              <button key={s} className={`nav ${screen === s && !instructor ? 'current' : ''}`} aria-current={screen === s && !instructor ? 'page' : undefined} onClick={() => go(s)}>{label}</button>
+            {NAV[role].map(([s, label]) => (
+              <button key={s} className={`nav ${screen === s ? 'current' : ''}`} aria-current={screen === s ? 'page' : undefined} onClick={() => go(s)}>{label}</button>
             ))}
-            <button className={`nav toggle ${instructor ? 'on' : ''}`} aria-pressed={instructor} onClick={() => setInstructor(v => !v)}>Instructor view</button>
           </nav>
         )}
       </header>
-      <main id="main" tabIndex={-1}>{instructor ? <InstructorView name={name} stations={stations} runs={recordedRuns(stations)} /> : body()}</main>
+      <main id="main" tabIndex={-1}>{body()}</main>
     </div>
   );
 }
