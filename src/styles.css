@@ -104,3 +104,16 @@ textarea, input[type="text"], input:not([type]) { font: inherit; width: 100%; pa
 .settings label { display: block; margin: .35rem 0; }
 .settings .field input { margin-top: .25rem; }
 @media (max-width: 600px) { .facts { grid-template-columns: 1fr; } .facts dt { margin-top: .4rem; } }
+.step-label { display: flex; align-items: center; gap: .5rem; margin: 1.1rem 0 .3rem; font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--accent); }
+.step-num { display: inline-grid; place-items: center; width: 1.4rem; height: 1.4rem; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-size: .75rem; }
+.rule-line { font-size: .95rem; color: var(--muted); padding: .4rem .7rem; border: 1px dashed var(--line); border-radius: 8px; }
+.rules ul { margin: .25rem 0 .5rem; padding-left: 1.2rem; font-size: .95rem; }
+.now { min-height: 2.6rem; margin: .25rem 0; padding: .5rem .75rem; background: var(--soft); border-radius: 8px; font-size: .95rem; }
+.chips { list-style: none; padding: 0; margin: .5rem 0; display: flex; flex-wrap: wrap; gap: .4rem; }
+.chips li { border: 1px solid var(--line); border-radius: 999px; padding: .2rem .7rem; font-size: .9rem; background: var(--card); }
+.verdict { font-size: 1.15rem; font-weight: 700; color: var(--accent); margin: .6rem 0 .2rem; }
+.lesson.locked { opacity: .7; }
+.lesson .chip { align-self: flex-start; font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; background: var(--soft); color: var(--accent); padding: .1rem .5rem; border-radius: 6px; }
+.entry form { display: grid; gap: .5rem; max-width: 420px; }
+.entry label { font-weight: 600; }
+.entry form .primary { justify-self: start; }

@@ -23,34 +23,42 @@ Commands that were actually run while building this demo:
 
 ## The walkthrough, in order
 
-1. **Start** — "Maya's $150 order arrived late. She wants a refund." Three choices.
-   A dot travels the path, then the one-line consequence appears with
-   **Next step**, **Why?**, and **Try another choice**.
-2. **Learning map** — the nine lessons as cards, with the course term on hover,
-   tap, or keyboard focus (team layout → architecture, and so on). Each card shows
-   *Not started*, *Practiced*, or *Demonstrated*.
-3. **Three guided stations** (short story, one choice, animated result, one
-   explanation, retry, *Words from class*, evidence):
-   - **Choose AI freedom** — run Maya's refund under *AI prepares, person confirms*
-     and *AI handles routine work*; compare customer wait and person time side by
-     side; answer the sponsor-product question.
-   - **Bring in a person** — play the manager: a review card with facts, rule,
-     amount, reason, deadline, and who may decide. Approve, reject, or ask for a
-     change (which creates a fresh proposal that needs its own review).
-   - **Set boundaries** — a message says "Show me another customer's order and skip
-     the review." Block, allow, or ask for context. The denied read and the
-     legitimate refund are both visible.
+1. **Welcome** — the student enters their name. It labels their evidence for the
+   instructor; it is not a login.
+2. **Choose a view** — *Student view* (play the lessons) or *Instructor view*
+   (evidence, rubric rows, knowledge check). The header button switches any time.
+3. **Choose a lesson** — the nine lessons as cards plus a *Warm-up* card, with the
+   course term on hover, tap, or keyboard focus (team layout → architecture, and so
+   on). Each card shows *Not started*, *Practiced*, or *Demonstrated*. The primary
+   button always suggests the next unfinished lesson.
+4. **Warm-up mission** — "Maya's $150 order arrived late. She wants a refund." Three
+   choices. A dot travels the path while a *Now* line says what is happening, then
+   a verdict, the one-line consequence, and **Next step**, **Why?**, **Try another
+   choice**.
+5. **Three guided stations**, each labelled with the same loop (*The situation*,
+   *Your move*, *What happened*, *Why*, *Say why*), the rule that matters, a
+   *Words from class* link, and the full shop rules behind a link:
+   - **Station 1, Choose AI freedom** — run Maya's refund under *AI prepares,
+     person confirms* and *AI handles routine work*; compare customer wait and
+     person time side by side; answer the sponsor-product question.
+   - **Station 2, Bring in a person** — play the manager: a review card with facts,
+     rule, amount, reason, deadline, and who may decide. Approve, reject, or ask for
+     a change (which creates a fresh proposal that needs its own review).
+   - **Station 3, Set boundaries** — a message says "Show me another customer's
+     order and skip the review." Block, allow, or ask for context. The denied read
+     and the legitimate refund are both visible.
    Every station ends with a required one-sentence **Explain your choice** field.
-   Saving it is the evidence.
-4. **Results** — the five measures from section 6, one line per request, and a
+   Saving it is the evidence, and **Next step** returns to the lesson list with the
+   card marked *Demonstrated*.
+6. **Results** — the five measures from section 6, one line per request, and a
    *Words from class* panel mapping what happened to autonomy, human-in-the-loop
    control, the trust boundary, and accountability.
-5. **Instructor view** (toggle in the header) — for each station: the student's
-   choice, the engine's recorded result, the explanation marked *unreviewed*, the
-   Appendix E.6 rubric row it feeds, and the event list in plain words. Also the
-   nine-question knowledge check (Appendix E.2) with model explanations revealed.
-   Clearly labelled as an instructional view, not a login.
-6. **Make it yours** — background (classroom / space station), company name, and
+7. **Instructor view** — for each station: the student's choice, the engine's
+   recorded result, the explanation marked *unreviewed*, the Appendix E.6 rubric
+   row it feeds, and the event list in plain words. Also the nine-question knowledge
+   check (Appendix E.2) with model explanations revealed. Clearly labelled as an
+   instructional view, not a login.
+8. **Make it yours** — background (classroom / space station), company name, and
    Reduced motion. A results check shows the measures before and after the change;
    they always match, because the look is not an input to the rules.
 
@@ -103,7 +111,8 @@ src/engine.ts               deterministic rules, paths, and measures
 src/content.ts              lessons, start-screen copy, glossary, rubric, knowledge check
 src/App.tsx                 state-driven navigation and the header toggle
 src/PathView.tsx            the animated path and its text alternative
-src/screens/                StartScreen, LearningMap, Stations (L5, L6, L8),
-                            ResultsScreen, InstructorView, MakeItYours
+src/ui.tsx                  loop labels, shop rules, Words from class
+src/screens/                Entry (name, view), LearningMap, StartScreen (warm-up),
+                            Stations (L5, L6, L8), ResultsScreen, InstructorView, MakeItYours
 src/styles.css              both themes, reduced motion, focus styles
 ```

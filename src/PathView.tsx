@@ -1,14 +1,15 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
-import type { PathNode } from './engine';
+import type { PathNode, RunResult } from './engine';
 import { dollars } from './engine';
 
 const ICON: Record<PathNode['kind'], string> = { request: '✉', ai: '✦', check: '⌕', person: '☺', action: '$', message: '✉', blocked: '⊘', waiting: '…' };
-const TICK_MS = 700;
+const TICK_MS = 800;
 
-interface Props { nodes: PathNode[]; playKey: number; reducedMotion: boolean; caption: string; onDone?: () => void }
+interface Props { run: RunResult; playKey: number; reducedMotion: boolean; caption: string; onDone?: () => void }
 
-/** A small dot travels node to node. Under Reduced motion the finished path and the step list show at once. */
-export function PathView({ nodes, playKey, reducedMotion, caption, onDone }: Props) {
+/** A small dot travels node to node while a "Now" line says what is happening. Under Reduced motion the finished path and the step list show at once. */
+export function PathView({ run, playKey, reducedMotion, caption, onDone }: Props) {
+  const nodes = run.nodes;
   const [reached, setReached] = useState(0);
   const [showSteps, setShowSteps] = useState(false);
   const doneRef = useRef(onDone);
@@ -25,6 +26,7 @@ export function PathView({ nodes, playKey, reducedMotion, caption, onDone }: Pro
     return () => window.clearInterval(id);
   }, [playKey, reducedMotion, nodes.length]);
 
+  const done = reached >= nodes.length;
   const status = (i: number) => (i < reached ? 'done' : i === reached ? 'active' : 'ahead');
   const word = (n: PathNode, s: string) => (s === 'ahead' ? 'not yet' : n.kind === 'blocked' ? 'blocked' : n.kind === 'waiting' ? 'waiting' : s === 'done' ? 'done' : 'now');
   const cost = (n: PathNode) => (n.minutes || n.cents ? ` ${n.minutes} min, ${dollars(n.cents)} of work.` : '');
@@ -45,7 +47,16 @@ export function PathView({ nodes, playKey, reducedMotion, caption, onDone }: Pro
           </Fragment>
         ))}
       </div>
-      {!reducedMotion && <button className="link" aria-expanded={showSteps} onClick={() => setShowSteps(v => !v)}>{showSteps ? 'Hide steps' : 'Show steps'}</button>}
+      {!reducedMotion && !done && <p className="now" aria-live="polite"><strong>Now:</strong> {nodes[reached].label}. {nodes[reached].detail}</p>}
+      {done && (
+        <ul className="chips" aria-label="What this run took">
+          <li><strong>{run.minutes}</strong> game minutes the customer waited</li>
+          <li><strong>{run.personMinutes}</strong> minutes of a person's time</li>
+          <li><strong>{dollars(run.cents)}</strong> of work</li>
+          <li>Result: <strong>{run.outcome}</strong></li>
+        </ul>
+      )}
+      {!reducedMotion && done && <button className="link" aria-expanded={showSteps} onClick={() => setShowSteps(v => !v)}>{showSteps ? 'Hide steps' : 'Show steps'}</button>}
       {(showSteps || reducedMotion) && (
         <ol className="steps">
           {nodes.map((n, i) => <li key={i}><strong>{n.label}</strong>{n.together ? ' (at the same time as the step before)' : ''}: {n.detail}{cost(n)}</li>)}

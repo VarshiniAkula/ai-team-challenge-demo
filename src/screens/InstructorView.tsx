@@ -10,10 +10,10 @@ const ROWS: { id: StationId; title: string; rubric: string[] }[] = [
 ];
 const line = (r: RunResult) => `${r.resultLine} Customer wait ${r.minutes} game minutes, work cost ${dollars(r.cents)}, person time ${r.personMinutes} minutes. Outcome recorded: ${r.outcome}.`;
 
-export function InstructorView({ stations, runs }: { stations: Stations; runs: (RunResult | null)[] }) {
+export function InstructorView({ name, stations, runs }: { name: string; stations: Stations; runs: (RunResult | null)[] }) {
   return (
     <section className="instructor">
-      <h2>Instructor view</h2>
+      <h2>Instructor view · student: {name || 'no name entered'}</h2>
       <p className="notice">Instructional view, not a login. Anyone using this copy can open it. Explanations stay marked <em>unreviewed</em> until an instructor reads them. Nothing here is proof of identity.</p>
       {ROWS.map(row => {
         const s = stations[row.id];

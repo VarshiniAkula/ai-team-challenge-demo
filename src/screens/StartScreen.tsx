@@ -3,9 +3,10 @@ import type { Look } from '../App';
 import type { StartRoute } from '../engine';
 import { runStart } from '../engine';
 import { PathView } from '../PathView';
+import { Label, ShopRules } from '../ui';
 import { START } from '../content';
 
-export function StartScreen({ look, next }: { look: Look; next: () => void }) {
+export function StartScreen({ look, next, onPlayed }: { look: Look; next: () => void; onPlayed: () => void }) {
   const [route, setRoute] = useState<StartRoute | null>(null);
   const [finished, setFinished] = useState(false);
   const [why, setWhy] = useState(false);
@@ -16,11 +17,14 @@ export function StartScreen({ look, next }: { look: Look; next: () => void }) {
 
   return (
     <section className="card mission">
-      <p className="kicker">A small mission</p>
+      <p className="kicker">Warm-up mission</p>
       <h2>{START.heading}</h2>
-      <p className="intro">You run {look.company}'s AI customer-service team. Make a choice, watch the path, read why, and try again.</p>
+      <p className="intro">You run {look.company}'s AI customer-service team. Each round: read the situation, pick a move, watch what happens, then read why. Aim for the right answer, little waiting, low cost, and a clear owner.</p>
+      <Label n={1} t="The situation" />
       <blockquote className="story">“{START.story}”</blockquote>
+      <Label n={2} t="Your move" />
       <p className="question" id="start-q">{START.question}</p>
+      <p className="rule-line">Shop rules: the AI helper may complete refunds of $100 or less on its own. A support teammate may approve up to $100, a manager up to $500.</p>
       <div className="choices" role="group" aria-labelledby="start-q">
         {START.choices.map((c, i) => (
           <button key={c.route} className={`choice ${route === c.route ? 'picked' : ''}`} aria-pressed={route === c.route} onClick={() => pick(c.route)}>
@@ -30,20 +34,23 @@ export function StartScreen({ look, next }: { look: Look; next: () => void }) {
       </div>
       {result && choice && (
         <>
-          <PathView nodes={result.nodes} playKey={playKey} reducedMotion={look.reducedMotion} caption="The path this request took" onDone={() => setFinished(true)} />
+          <Label n={3} t="What happened" />
+          <PathView run={result} playKey={playKey} reducedMotion={look.reducedMotion} caption="Watch the request travel through the team" onDone={() => { setFinished(true); onPlayed(); }} />
           {finished && (
             <div className="after" role="status">
+              <p className="verdict">{choice.verdict}</p>
               <p className="consequence">{choice.message}</p>
               <div className="actions">
                 <button className="primary" onClick={next}>Next step</button>
                 <button aria-expanded={why} onClick={() => setWhy(v => !v)}>Why?</button>
                 <button onClick={() => { setRoute(null); setFinished(false); setWhy(false); }}>Try another choice</button>
               </div>
-              {why && <p className="why">{choice.why} Customer wait: {result.minutes} game minutes. Person time: {result.personMinutes} minutes.</p>}
+              {why && <><Label n={4} t="Why" /><p className="why">{choice.why}</p></>}
             </div>
           )}
         </>
       )}
+      <ShopRules />
     </section>
   );
 }
