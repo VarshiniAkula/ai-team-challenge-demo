@@ -1,19 +1,11 @@
-import { useState } from 'react';
-import type { Look, Stations } from '../App';
-import { recordedRuns } from '../App';
-import { dollars, measures } from '../engine';
+import type { Look } from '../App';
 
-export function MakeItYours({ look, setLook, stations, entered, next }: { look: Look; setLook: (l: Look) => void; stations: Stations; entered: boolean; next: () => void }) {
-  const now = measures(recordedRuns(stations));
-  const [before] = useState(now);
-  const [changed, setChanged] = useState<string[]>([]);
-  const set = (patch: Partial<Look>) => { setLook({ ...look, ...patch }); setChanged(c => Array.from(new Set([...c, ...Object.keys(patch)]))); };
-  const summary = (m: typeof now) => `Correct answers ${m.correct} of ${m.total} · Customer wait ${m.minutes} game minutes · Work cost ${dollars(m.cents)} · Person time ${m.personMinutes} min`;
+export function MakeItYours({ look, setLook, entered, next }: { look: Look; setLook: (l: Look) => void; entered: boolean; next: () => void }) {
+  const set = (patch: Partial<Look>) => setLook({ ...look, ...patch });
   return (
     <section>
       <p className="kicker">{entered ? 'Settings' : 'Step 2 of 4 · Settings'}</p>
       <h2>Make it yours</h2>
-      <p className="lead">Change the look now or any time from Settings. The lessons, the rules, and the results stay exactly the same. That is how the student assignment works.</p>
       <div className="card settings">
         <fieldset>
           <legend>Background</legend>
@@ -22,12 +14,6 @@ export function MakeItYours({ look, setLook, stations, entered, next }: { look: 
         </fieldset>
         <label className="field">Company name <input value={look.company} placeholder="Maple Market" onChange={e => set({ company: e.target.value })} /></label>
         <label><input type="checkbox" checked={look.reducedMotion} onChange={e => set({ reducedMotion: e.target.checked })} /> Reduced motion (the same information appears as text)</label>
-      </div>
-      <div className="card check" aria-live="polite">
-        <h3>Results check</h3>
-        <p><strong>When you opened this screen:</strong> {summary(before)}</p>
-        <p><strong>Now, after changing {changed.length} setting{changed.length === 1 ? '' : 's'}:</strong> {summary(now)}</p>
-        <p className="muted">The look is not an input to the game's rules, so these two lines always match. Open Results to see the same numbers under the new look.</p>
       </div>
       <button className="primary" onClick={next}>{entered ? 'Back to lessons' : 'Continue'}</button>
     </section>

@@ -5,10 +5,10 @@ import { dollars } from './engine';
 const ICON: Record<PathNode['kind'], string> = { request: '✉', ai: '✦', check: '⌕', person: '☺', action: '$', message: '✉', blocked: '⊘', waiting: '…' };
 const TICK_MS = 800;
 
-interface Props { run: RunResult; playKey: number; reducedMotion: boolean; caption: string; onDone?: () => void }
+interface Props { run: RunResult; playKey: number; reducedMotion: boolean; onDone?: () => void }
 
 /** A small dot travels node to node while a "Now" line says what is happening. Under Reduced motion the finished path and the step list show at once. */
-export function PathView({ run, playKey, reducedMotion, caption, onDone }: Props) {
+export function PathView({ run, playKey, reducedMotion, onDone }: Props) {
   const nodes = run.nodes;
   const [reached, setReached] = useState(0);
   const [showSteps, setShowSteps] = useState(false);
@@ -33,8 +33,7 @@ export function PathView({ run, playKey, reducedMotion, caption, onDone }: Props
 
   return (
     <div className="pathview">
-      <p className="caption">{caption}</p>
-      <div className="path" role="list" aria-label={caption}>
+      <div className="path" role="list" aria-label="The path this request took">
         {nodes.map((n, i) => (
           <Fragment key={i}>
             {i > 0 && <div className={`conn ${status(i) === 'active' ? 'moving' : ''}`} aria-hidden="true"><span className="dot" /></div>}
@@ -48,14 +47,6 @@ export function PathView({ run, playKey, reducedMotion, caption, onDone }: Props
         ))}
       </div>
       {!reducedMotion && !done && <p className="now" aria-live="polite"><strong>Now:</strong> {nodes[reached].label}. {nodes[reached].detail}</p>}
-      {done && (
-        <ul className="chips" aria-label="What this run took">
-          <li><strong>{run.minutes}</strong> game minutes the customer waited</li>
-          <li><strong>{run.personMinutes}</strong> minutes of a person's time</li>
-          <li><strong>{dollars(run.cents)}</strong> of work</li>
-          <li>Result: <strong>{run.outcome}</strong></li>
-        </ul>
-      )}
       {!reducedMotion && done && <button className="link" aria-expanded={showSteps} onClick={() => setShowSteps(v => !v)}>{showSteps ? 'Hide steps' : 'Show steps'}</button>}
       {(showSteps || reducedMotion) && (
         <ol className="steps">

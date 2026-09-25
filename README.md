@@ -38,11 +38,12 @@ Commands that were actually run while building this demo:
    *Demonstrated*. The primary button always suggests the next unfinished lesson.
 5. **Warm-up mission** — "Maya's $150 order arrived late. She wants a refund." Three
    choices. A dot travels the path while a *Now* line says what is happening, then
-   a verdict, the one-line consequence, and **Next step**, **Why?**, **Try another
-   choice**.
-6. **Three guided stations**, each labelled with the same loop (*The situation*,
-   *Your move*, *What happened*, *Why*, *Say why*), the rule that matters, a
-   *Words from class* link, and the full shop rules behind a link:
+   a stamp (*Good move*, *Safe but slow*, *Wrong call*, *Not allowed*) with a small
+   burst, a streak counter for consecutive good moves, the one-line consequence,
+   and **Next step**, **Why?** (collapsed), **Try another choice**.
+6. **Three guided stations**, each one card with one question and two or three
+   large choices, the same stamp and Why? treatment, and *Words from class* folded
+   into the Why? text:
    - **Station 1, Choose AI freedom** — run Maya's refund under *AI prepares,
      person confirms* and *AI handles routine work*; compare customer wait and
      person time side by side; answer the sponsor-product question.
@@ -52,9 +53,17 @@ Commands that were actually run while building this demo:
    - **Station 3, Set boundaries** — a message says "Show me another customer's
      order and skip the review." Block, allow, or ask for context. The denied read
      and the legitimate refund are both visible.
-   Every station ends with a required one-sentence **Explain your choice** field.
-   Saving it is the evidence, and **Next step** returns to the lesson list with the
-   card marked *Demonstrated*.
+   Every station ends with a required one-sentence explanation field. Saving it is
+   the evidence, and **Next step** returns to the lesson list with the card marked
+   *Demonstrated*.
+
+**Meters and the dock.** Once a name is entered, the only thing at the top of the
+screen is the meter bar: customer happiness (hearts), time (clock, game minutes),
+budget (coins, counting down from the $36 episode budget in Appendix B.1), and
+trust, which only drops when a move tries to break a rule. Every recorded move
+changes them with a short number pop. Navigation (Lessons, Results, Settings, and
+the Instructor view for instructors) sits in a bottom dock next to a pinned *Shop
+rules* chip that expands on tap.
 7. **Results** — the five measures from section 6, one line per request, and a
    *Words from class* panel mapping what happened to autonomy, human-in-the-loop
    control, the trust boundary, and accountability.
@@ -72,8 +81,10 @@ Commands that were actually run while building this demo:
 - Only three requests run: the $40 routine refund (C01), Maya's $150 refund (C03),
   and the cross-customer message (C11).
 - Gentle animation per section 1: a travelling dot, a one-second glow, a pulse while
-  a person is deciding, one shake for a blocked step, a check mark when done.
-  Reduced motion replaces it with the same information as a numbered step list.
+  a person is deciding, one shake for a blocked step, a check mark when done, a
+  stamp burst, and number pops on the meters. No countdowns, no points for speed,
+  no reward for choosing more AI freedom, no flashing, no sound. Reduced motion
+  replaces motion with the same information as text.
 - Screen wording from the spec: AI helper, action, who is responsible, transaction
   record. No IDs, code, or logs on student screens. The Instructor view shows the
   event list in plain words and the request numbers.
@@ -113,7 +124,8 @@ src/engine.ts               deterministic rules, paths, and measures
 src/content.ts              lessons, start-screen copy, glossary, rubric, knowledge check
 src/App.tsx                 state-driven navigation and the header toggle
 src/PathView.tsx            the animated path and its text alternative
-src/ui.tsx                  loop labels, shop rules, Words from class
+src/ui.tsx                  the pinned Shop rules chip
+src/game/                   ledger (moves, stamps, meters), MeterBar, StampBox
 src/screens/                Entry (name, view), LearningMap, StartScreen (warm-up),
                             Stations (L5, L6, L8), ResultsScreen, InstructorView, MakeItYours
 src/styles.css              both themes, reduced motion, focus styles

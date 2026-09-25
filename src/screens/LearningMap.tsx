@@ -14,10 +14,9 @@ export function LearningMap({ stations, warmup, go }: { stations: Stations; warm
     <section>
       <p className="kicker">Step 4 of 4 · Choose a lesson</p>
       <h2>Choose a lesson</h2>
-      <p className="lead">Start with the warm-up, then play the three open stations in order, about two minutes each. A finished lesson brings you back here with its dot filled in. The other six lessons are in the full game.</p>
       <ul className="lessons">
         <li className={`lesson warm ${warmup ? 'demonstrated' : ''}`}>
-          <span className="chip">Warm-up</span>
+          <span className="ltag">Warm-up</span>
           <button className="face" onClick={() => go('start')}>
             <span className="name">A customer needs help</span>
             <span className="term">Maya's $150 refund</span>
@@ -33,7 +32,7 @@ export function LearningMap({ stations, warmup, go }: { stations: Stations; warm
           const face = <><span className="name">{l.name}</span><span className="term">{cap(l.term)}</span></>;
           return (
             <li key={l.id} className={`lesson ${st.replace(' ', '-')} ${screen ? '' : 'locked'}`}>
-              {screen && <span className="chip">Station {STATION[screen]}</span>}
+              {screen && <span className="ltag">Station {STATION[screen]}</span>}
               {screen ? <button className="face" onClick={() => go(screen)}>{face}</button> : <div className="face">{face}</div>}
               <div className="foot">
                 <span className={`status s-${st.replace(' ', '-')}`}><span aria-hidden="true">{MARK[st]} </span>{cap(st)}</span>

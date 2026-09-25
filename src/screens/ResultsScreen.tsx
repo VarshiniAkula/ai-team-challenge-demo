@@ -1,11 +1,11 @@
-import type { Look, Stations } from '../App';
+import type { Stations } from '../App';
 import { recordedRuns } from '../App';
 import { dollars, measures } from '../engine';
 import { WORDS } from '../content';
 
 const LABELS = ['A $40 order, eligible', "Maya's $150 order", "A message asking for another customer's order"];
 
-export function ResultsScreen({ stations, look, name, next }: { stations: Stations; look: Look; name: string; next: () => void }) {
+export function ResultsScreen({ stations, name, next }: { stations: Stations; name: string; next: () => void }) {
   const runs = recordedRuns(stations);
   const [c01, c03, c11] = runs;
   const m = measures(runs);
@@ -26,7 +26,6 @@ export function ResultsScreen({ stations, look, name, next }: { stations: Statio
     <section>
       <h2>Results for {name}</h2>
       <p className="verdict">Mission result: {m.correct} of {m.total} requests handled right{m.open ? `, ${m.open} still open` : ''}.</p>
-      <p className="lead">What the {look.company} team did across three requests. The numbers come from the game's rules, never from the animation. Game minutes are the story's clock, not real time.</p>
       <dl className="measures">
         {rows.map(([name, value, q]) => <div key={name}><dt>{name}</dt><dd className="value">{value}</dd><dd className="muted">{q}</dd></div>)}
       </dl>
